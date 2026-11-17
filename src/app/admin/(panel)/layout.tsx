@@ -37,11 +37,11 @@ export default async function LayoutAdmin({ children }: { children: React.ReactN
   return (
     <div className="flex min-h-screen bg-krem">
       <NotifRealtime idUser={profil.id} />
-      <SidebarAdmin pesananBaru={diproses ?? 0} slotKeluar={tombolKeluar} />
+      <SidebarAdmin pesananBaru={diproses ?? 0} adminUtama={profil.is_admin_utama} slotKeluar={tombolKeluar} />
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-3 border-b border-garis bg-krem/95 px-4 backdrop-blur sm:px-6">
           <div className="flex items-center gap-2">
-            <MenuAdminMobile pesananBaru={diproses ?? 0} slotKeluar={tombolKeluar} />
+            <MenuAdminMobile pesananBaru={diproses ?? 0} adminUtama={profil.is_admin_utama} slotKeluar={tombolKeluar} />
             <p className="text-sm text-abu">
               Selamat datang kembali, <span className="font-semibold text-tinta">{profil.nama || "Admin"}</span>!
             </p>

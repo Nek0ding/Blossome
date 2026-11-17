@@ -66,18 +66,32 @@ Buka https://supabase.com/dashboard/project/sjfxnamddrbfawvpcysj
 
 ## 4. Buat akun admin
 
-Admin tidak bisa daftar dari website.
+Admin tidak bisa daftar dari website. Ada dua jenis admin:
+
+- **Admin utama** (hanya satu): bisa semua menu, plus menu **Kelola Admin**.
+- **Admin**: bisa semua menu kecuali Kelola Admin.
+
+**Admin utama pertama** (sekali saja):
 
 1. Daftar akun biasa di `/daftar` atau lewat Google (pakai email yang akan jadi admin).
 2. Supabase Dashboard → SQL Editor, jalankan:
 
    ```sql
-   update public.profiles set role = 'admin' where email = 'email-admin@contoh.com';
+   update public.profiles set role = 'admin', is_admin_utama = true where email = 'email-admin@contoh.com';
    ```
 
 3. Masuk di `/admin/masuk` (email + password, atau tombol **Masuk dengan Google** untuk akun Google).
    Akun Google bisa membuat password di menu **Akun Saya** di admin panel.
 4. Buka **Pengaturan Toko**, lalu isi **email toko** (penerima email orderan masuk) dan nomor WhatsApp.
+
+**Admin berikutnya** cukup lewat admin panel → **Kelola Admin** (login sebagai admin utama):
+
+- **Jadikan akun yang ada sebagai admin**: cari pelanggan yang sudah daftar (email/Google), klik **Jadikan admin**.
+  Ditolak kalau akun itu masih punya pesanan belum dibayar. Keranjangnya otomatis dikosongkan.
+- **Buat akun admin baru**: isi nama, email, dan password sementara. Akun langsung aktif, bisa masuk di
+  `/admin/masuk`, lalu ganti password di **Akun Saya**.
+- **Cabut akses admin**: admin kembali jadi pelanggan biasa. Admin utama tidak bisa dicabut dan tidak bisa
+  mengubah perannya sendiri.
 
 Akun admin **tidak bisa berbelanja**: semua halaman toko (beranda, katalog, keranjang, checkout, dll.) langsung
 diarahkan ke dashboard, dan database menolak keranjang/pesanan katalog milik admin. Untuk mencoba toko sebagai

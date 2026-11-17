@@ -15,6 +15,7 @@ import {
   LayoutDashboard,
   Menu,
   Settings,
+  ShieldCheck,
   Tags,
   Users,
   X,
@@ -32,12 +33,17 @@ const MENU = [
   { href: "/admin/pengaturan", label: "Pengaturan Toko", ikon: Settings },
 ];
 
-function Isi({ pesananBaru, onPilih }: { pesananBaru: number; onPilih?: () => void }) {
+const MENU_ADMIN_UTAMA = { href: "/admin/kelola-admin", label: "Kelola Admin", ikon: ShieldCheck };
+
+function Isi({ pesananBaru, adminUtama, onPilih }: { pesananBaru: number; adminUtama: boolean; onPilih?: () => void }) {
   const path = usePathname();
+  // Menu Kelola Admin hanya tampil untuk admin utama
+  const daftar: { href: string; label: string; ikon: typeof LayoutDashboard; persis?: boolean; lencana?: "pesanan" }[] =
+    adminUtama ? [...MENU, MENU_ADMIN_UTAMA] : MENU;
   return (
     <nav aria-label="Menu admin">
       <ul className="space-y-1">
-        {MENU.map(({ href, label, ikon: Ikon, persis, lencana }) => {
+        {daftar.map(({ href, label, ikon: Ikon, persis, lencana }) => {
           const aktif = persis ? path === href : path === href || path.startsWith(href + "/");
           return (
             <li key={href}>
@@ -86,7 +92,15 @@ function TautanAkun({ onPilih }: { onPilih?: () => void }) {
 }
 
 /** Sidebar tetap untuk layar besar. */
-export function SidebarAdmin({ pesananBaru, slotKeluar }: { pesananBaru: number; slotKeluar: React.ReactNode }) {
+export function SidebarAdmin({
+  pesananBaru,
+  adminUtama,
+  slotKeluar,
+}: {
+  pesananBaru: number;
+  adminUtama: boolean;
+  slotKeluar: React.ReactNode;
+}) {
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col overflow-y-auto bg-zaitun-tua p-4 text-white lg:flex">
       <div className="px-2 pb-6 pt-2">
@@ -95,7 +109,7 @@ export function SidebarAdmin({ pesananBaru, slotKeluar }: { pesananBaru: number;
           Admin Panel
         </p>
       </div>
-      <Isi pesananBaru={pesananBaru} />
+      <Isi pesananBaru={pesananBaru} adminUtama={adminUtama} />
       <div className="mt-auto space-y-1 border-t border-white/15 pt-4">
         <TautanAkun />
         {slotKeluar}
@@ -105,7 +119,15 @@ export function SidebarAdmin({ pesananBaru, slotKeluar }: { pesananBaru: number;
 }
 
 /** Tombol menu + laci navigasi untuk layar kecil. */
-export function MenuAdminMobile({ pesananBaru, slotKeluar }: { pesananBaru: number; slotKeluar: React.ReactNode }) {
+export function MenuAdminMobile({
+  pesananBaru,
+  adminUtama,
+  slotKeluar,
+}: {
+  pesananBaru: number;
+  adminUtama: boolean;
+  slotKeluar: React.ReactNode;
+}) {
   const [buka, setBuka] = useState(false);
 
   // Tutup dengan tombol Escape dan kunci scroll halaman selama laci terbuka
@@ -149,7 +171,7 @@ export function MenuAdminMobile({ pesananBaru, slotKeluar }: { pesananBaru: numb
                   <X size={20} aria-hidden />
                 </button>
               </div>
-              <Isi pesananBaru={pesananBaru} onPilih={() => setBuka(false)} />
+              <Isi pesananBaru={pesananBaru} adminUtama={adminUtama} onPilih={() => setBuka(false)} />
               <div className="mt-6 space-y-1 border-t border-white/15 pt-4">
                 <TautanAkun onPilih={() => setBuka(false)} />
                 {slotKeluar}
