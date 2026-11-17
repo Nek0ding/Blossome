@@ -11,7 +11,10 @@ export default async function AkunAdmin({ searchParams }: { searchParams: Promis
   const [profil, { pesan }] = await Promise.all([wajibAdmin(), searchParams]);
   return (
     <>
-      <JudulHalaman judul="Akun Saya" deskripsi={`Masuk sebagai ${profil.email}`} />
+      <JudulHalaman
+        judul="Akun Saya"
+        deskripsi={`Masuk sebagai ${profil.email} · ${profil.is_admin_utama ? "Admin utama" : "Admin"}`}
+      />
       <div className="grid max-w-3xl gap-6">
         {pesan === "password-diubah" ? <Pesan ok="Password berhasil diubah." /> : null}
         <Kartu>

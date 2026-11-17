@@ -2,19 +2,12 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { amankanNext } from "@/lib/auth";
 import { getOrigin } from "@/lib/toko";
+import { skemaEmail, skemaPassword } from "@/lib/validasi";
 import type { FormState } from "@/lib/types";
 
-const skemaEmail = z.string().trim().toLowerCase().email("Format email tidak valid");
-const skemaPassword = z
-  .string()
-  .min(8, "Password minimal 8 karakter")
-  .max(72, "Password maksimal 72 karakter")
-  .regex(/[A-Za-z]/, "Password harus mengandung huruf")
-  .regex(/[0-9]/, "Password harus mengandung angka");
 
 function pesanAuth(pesan: string): string {
   const p = pesan.toLowerCase();

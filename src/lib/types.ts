@@ -19,6 +19,8 @@ export interface Profil {
   no_telp: string | null;
   alamat: string | null;
   role: Peran;
+  /** Admin utama: satu-satunya yang boleh menambah / mencabut admin lain. */
+  is_admin_utama: boolean;
   created_at: string;
 }
 

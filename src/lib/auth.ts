@@ -26,7 +26,7 @@ export const getProfil = cache(async (): Promise<Profil | null> => {
   const supabase = await createClient();
   const { data } = await supabase
     .from("profiles")
-    .select("id, nama, email, no_telp, alamat, role, created_at")
+    .select("id, nama, email, no_telp, alamat, role, is_admin_utama, created_at")
     .eq("id", sesi.id)
     .maybeSingle();
   return (data as Profil | null) ?? null;
@@ -58,6 +58,13 @@ export async function wajibAdmin(): Promise<Profil> {
   if (!profil) redirect("/admin/masuk");
   // Sudah masuk tapi bukan admin: tampilkan alasannya di halaman masuk admin, bukan dilempar diam-diam ke beranda.
   if (profil.role !== "admin") redirect("/admin/masuk?galat=bukan-admin");
+  return profil;
+}
+
+/** Wajib admin utama (pengelola admin lain). Admin biasa dikembalikan ke dashboard. */
+export async function wajibAdminUtama(): Promise<Profil> {
+  const profil = await wajibAdmin();
+  if (!profil.is_admin_utama) redirect("/admin");
   return profil;
 }
 
