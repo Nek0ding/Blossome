@@ -43,7 +43,8 @@ export async function wajibLogin(next?: string): Promise<Sesi> {
 export async function wajibAdmin(): Promise<Profil> {
   const profil = await getProfil();
   if (!profil) redirect("/admin/masuk");
-  if (profil.role !== "admin") redirect("/");
+  // Sudah masuk tapi bukan admin: tampilkan alasannya di halaman masuk admin, bukan dilempar diam-diam ke beranda.
+  if (profil.role !== "admin") redirect("/admin/masuk?galat=bukan-admin");
   return profil;
 }
 

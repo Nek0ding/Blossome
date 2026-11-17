@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Trash2 } from "lucide-react";
 import { GambarProduk } from "@/components/gambar-produk";
 import { Kartu, Kosong, kelasInput, kelasTombol } from "@/components/ui";
+import { cn } from "@/lib/cn";
 import { TombolKirim } from "@/components/form";
 import { hapusDariKeranjang, ubahJumlahKeranjang } from "@/lib/actions/keranjang";
 import { wajibLogin } from "@/lib/auth";
@@ -31,7 +32,7 @@ export default async function HalamanKeranjang() {
           <div className="mt-8">
             <Kosong judul="Keranjangmu masih kosong">
               <p>Pilih buket favoritmu dulu dari katalog.</p>
-              <Link href="/katalog" className={kelasTombol("utama") + " mt-5"}>
+              <Link href="/katalog" className={kelasTombol("utama", false, "mt-5")}>
                 Lihat Katalog
               </Link>
             </Kosong>
@@ -101,7 +102,7 @@ export default async function HalamanKeranjang() {
                               min={1}
                               max={99}
                               defaultValue={item.jumlah}
-                              className={kelasInput + " w-20 py-1.5"}
+                              className={cn(kelasInput, "w-20 py-1.5")}
                             />
                             <TombolKirim varian="garis" kecil teksProses="…">
                               Ubah
@@ -134,11 +135,11 @@ export default async function HalamanKeranjang() {
                 </p>
               ) : null}
               {adaMasalah ? (
-                <span className={kelasTombol("utama") + " pointer-events-none w-full opacity-60"} aria-disabled="true">
+                <span className={kelasTombol("utama", false, "pointer-events-none w-full opacity-60")} aria-disabled="true">
                   Checkout
                 </span>
               ) : (
-                <Link href="/checkout" className={kelasTombol("utama") + " w-full"}>
+                <Link href="/checkout" className={kelasTombol("utama", false, "w-full")}>
                   Checkout
                 </Link>
               )}

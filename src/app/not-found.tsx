@@ -8,7 +8,7 @@ export default function TidakDitemukan() {
       <Logo />
       <h1 className="judul mt-8 text-6xl">Halaman tidak ditemukan</h1>
       <p className="mt-3 max-w-md text-abu">Halaman yang kamu cari tidak ada atau sudah dipindahkan.</p>
-      <Link href="/" className={kelasTombol("utama") + " mt-8"}>
+      <Link href="/" className={kelasTombol("utama", false, "mt-8")}>
         Kembali ke Beranda
       </Link>
     </main>

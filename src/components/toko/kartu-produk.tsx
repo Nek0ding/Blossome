@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 import Link from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { ArrowUpRight } from "lucide-react";
 import { GambarProduk } from "@/components/gambar-produk";
 import { rupiah } from "@/lib/format";
@@ -17,7 +17,7 @@ export function KartuProduk({ produk, urutan = 0, saatGulir = false }: { produk:
     <Link
       href={`/produk/${produk.slug}`}
       style={{ "--i": urutan } as CSSProperties}
-      className={clsx(
+      className={cn(
         "kartu-muncul group flex flex-col overflow-hidden rounded-2xl border border-garis bg-white transition-[translate,box-shadow,border-color] duration-300 hover:-translate-y-1 hover:border-pink hover:shadow-lg hover:shadow-rose/10",
         saatGulir && "saat-gulir",
       )}

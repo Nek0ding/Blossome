@@ -73,7 +73,30 @@ export default async function DaftarProdukAdmin({
       {produk.length === 0 ? (
         <Kosong judul="Belum ada produk">Tambahkan produk pertama untuk ditampilkan di katalog.</Kosong>
       ) : (
-        <Tabel>
+        <>
+        {/* HP: kartu produk, tombol Ubah langsung terlihat */}
+        <ul className="space-y-3 md:hidden">
+          {produk.map((p) => (
+            <li key={p.id_produk} className="flex items-center gap-3 rounded-2xl border border-garis bg-white p-3">
+              <GambarProduk src={p.gambar} alt={p.nama_produk} className="h-16 w-14 shrink-0 rounded-lg" sizes="56px" />
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-semibold">{p.nama_produk}</p>
+                <p className="text-xs text-abu">
+                  {p.kategori?.nama_kategori ?? "-"} · {rupiah(p.harga)}
+                </p>
+                <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs">
+                  <span className={p.stok <= p.stok_minimum ? "font-semibold text-amber-700" : "text-abu"}>Stok {p.stok}</span>
+                  {p.is_aktif ? <Lencana>Aktif</Lencana> : <Lencana warna="bg-stone-200 text-stone-700">Nonaktif</Lencana>}
+                  {p.is_best_seller ? <span className="font-semibold text-rose">Best Seller</span> : null}
+                </p>
+              </div>
+              <Link href={`/admin/produk/${p.id_produk}`} className={kelasTombol("garis", true, "shrink-0")}>
+                Ubah
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Tabel className="hidden md:block">
           <thead>
             <tr>
               <Th>Produk</Th>
@@ -113,6 +136,7 @@ export default async function DaftarProdukAdmin({
             ))}
           </tbody>
         </Tabel>
+        </>
       )}
     </>
   );

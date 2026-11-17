@@ -4,6 +4,7 @@ import { useActionState, useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { simpanOperasional, simpanProfilToko, simpanTemplateEmail } from "@/lib/actions/admin";
 import { Kolom, Pesan, kelasInput } from "@/components/ui";
+import { cn } from "@/lib/cn";
 import { FormAksi, TombolKirim } from "@/components/form";
 import { NAMA_HARI, type PengaturanToko } from "@/lib/types";
 
@@ -72,7 +73,7 @@ export function FormOperasional({ toko }: { toko: PengaturanToko }) {
         </Kolom>
       </div>
 
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="mb-2 text-sm font-semibold">Jam operasional (WIB)</legend>
         <div className="overflow-x-auto rounded-xl border border-garis">
           <table className="w-full min-w-[420px] text-sm">
@@ -85,10 +86,10 @@ export function FormOperasional({ toko }: { toko: PengaturanToko }) {
                       {h}
                     </th>
                     <td className="px-3 py-2">
-                      <input type="time" name={`${h}_buka`} defaultValue={jam.buka} aria-label={`Jam buka ${h}`} className={kelasInput + " py-1.5"} />
+                      <input type="time" name={`${h}_buka`} defaultValue={jam.buka} aria-label={`Jam buka ${h}`} className={cn(kelasInput, "py-1.5")} />
                     </td>
                     <td className="px-3 py-2">
-                      <input type="time" name={`${h}_tutup`} defaultValue={jam.tutup} aria-label={`Jam tutup ${h}`} className={kelasInput + " py-1.5"} />
+                      <input type="time" name={`${h}_tutup`} defaultValue={jam.tutup} aria-label={`Jam tutup ${h}`} className={cn(kelasInput, "py-1.5")} />
                     </td>
                     <td className="px-3 py-2">
                       <label className="flex items-center gap-2 whitespace-nowrap">
@@ -103,14 +104,14 @@ export function FormOperasional({ toko }: { toko: PengaturanToko }) {
         </div>
       </fieldset>
 
-      <fieldset>
+      <fieldset className="min-w-0">
         <legend className="mb-2 text-sm font-semibold">Slot jam kirim</legend>
         <ul className="space-y-2">
           {slot.map((s, i) => (
             <li key={s.kunci} className="flex flex-wrap items-center gap-2">
-              <input type="time" name={`slot_${i}_mulai`} defaultValue={s.mulai} required aria-label={`Slot ${i + 1} mulai`} className={kelasInput + " w-32 py-1.5"} />
+              <input type="time" name={`slot_${i}_mulai`} defaultValue={s.mulai} required aria-label={`Slot ${i + 1} mulai`} className={cn(kelasInput, "w-32 py-1.5")} />
               <span className="text-abu">sampai</span>
-              <input type="time" name={`slot_${i}_selesai`} defaultValue={s.selesai} required aria-label={`Slot ${i + 1} selesai`} className={kelasInput + " w-32 py-1.5"} />
+              <input type="time" name={`slot_${i}_selesai`} defaultValue={s.selesai} required aria-label={`Slot ${i + 1} selesai`} className={cn(kelasInput, "w-32 py-1.5")} />
               {slot.length > 1 ? (
                 <button
                   type="button"
@@ -154,7 +155,7 @@ export function FormTemplateEmail({ toko }: { toko: PengaturanToko }) {
         <input id={`${kunci}_subjek`} name={`${kunci}_subjek`} required maxLength={150} defaultValue={t[kunci]?.subjek} className={kelasInput} />
       </Kolom>
       <Kolom label="Isi" htmlFor={`${kunci}_isi`}>
-        <textarea id={`${kunci}_isi`} name={`${kunci}_isi`} required rows={6} maxLength={3000} defaultValue={t[kunci]?.isi} className={kelasInput + " font-mono text-xs"} />
+        <textarea id={`${kunci}_isi`} name={`${kunci}_isi`} required rows={6} maxLength={3000} defaultValue={t[kunci]?.isi} className={cn(kelasInput, "font-mono text-xs")} />
       </Kolom>
     </div>
   );

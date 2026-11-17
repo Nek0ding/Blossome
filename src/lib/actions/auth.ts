@@ -25,6 +25,8 @@ function pesanAuth(pesan: string): string {
   if (p.includes("expired") || p.includes("invalid")) return "Kode salah atau sudah kedaluwarsa. Minta kode baru.";
   if (p.includes("should be different")) return "Password baru harus berbeda dari password lama.";
   if (p.includes("error sending")) return "Email verifikasi gagal dikirim. Periksa pengaturan SMTP di Supabase.";
+  if (p.includes("different from the old")) return "Password baru harus berbeda dari password lama.";
+  if (p.includes("reauthenticat")) return "Demi keamanan, keluar lalu masuk lagi sebelum mengganti password.";
   if (p.includes("weak") || p.includes("pwned") || p.includes("easy to guess")) {
     return "Password ini terlalu mudah ditebak atau pernah bocor. Gunakan password lain.";
   }
@@ -125,7 +127,8 @@ export async function masukGoogle(formData: FormData): Promise<void> {
     provider: "google",
     options: { redirectTo: `${origin}/auth/callback?next=${encodeURIComponent(next)}` },
   });
-  if (error || !data.url) redirect("/masuk?galat=google");
+  // Kalau gagal, kembali ke halaman masuk asalnya (admin atau pelanggan).
+  if (error || !data.url) redirect(next.startsWith("/admin") ? "/admin/masuk?galat=google" : "/masuk?galat=google");
   redirect(data.url);
 }
 
@@ -140,6 +143,25 @@ export async function lupaPassword(_prev: FormState, formData: FormData): Promis
   });
   if (error) return { error: pesanAuth(error.message) };
   redirect(`/verifikasi?tipe=reset&email=${encodeURIComponent(email.data)}`);
+}
+
+/**
+ * Buat atau ganti password dari halaman Akun (pengguna sudah login).
+ * Akun yang dibuat lewat Google bisa memakai ini supaya juga bisa masuk dengan email + password,
+ * termasuk di halaman masuk admin.
+ */
+export async function ubahPasswordAkun(_prev: FormState, formData: FormData): Promise<FormState> {
+  const password = skemaPassword.safeParse(formData.get("password"));
+  if (!password.success) return { error: password.error.issues[0].message };
+  if (formData.get("konfirmasi") !== password.data) return { error: "Konfirmasi password tidak sama." };
+
+  const supabase = await createClient();
+  const { data } = await supabase.auth.getUser();
+  if (!data.user) return { error: "Sesi sudah habis. Silakan masuk lagi." };
+
+  const { error } = await supabase.auth.updateUser({ password: password.data });
+  if (error) return { error: pesanAuth(error.message) };
+  return { ok: "Password tersimpan. Sekarang kamu juga bisa masuk dengan email dan password ini." };
 }
 
 export async function aturPasswordBaru(_prev: FormState, formData: FormData): Promise<FormState> {

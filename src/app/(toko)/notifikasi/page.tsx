@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { Bell } from "lucide-react";
 import { Kosong } from "@/components/ui";
 import { TombolKirim } from "@/components/form";
@@ -48,7 +48,7 @@ export default async function HalamanNotifikasi() {
             {daftar.map((n) => {
               const isi = (
                 <div
-                  className={clsx(
+                  className={cn(
                     "flex gap-4 rounded-2xl border p-4",
                     n.is_dibaca ? "border-garis bg-white" : "border-pink bg-pink-muda",
                   )}

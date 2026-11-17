@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useMemo, useState } from "react";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { buatPesanan } from "@/lib/actions/pesanan";
 import { Kolom, Pesan, kelasInput } from "@/components/ui";
 import { FormAksi, TombolKirim } from "@/components/form";
@@ -78,7 +78,7 @@ export function FormCheckout({
 
         <section className="rounded-2xl border border-garis bg-white p-5 sm:p-6">
           <h2 className="font-serif text-2xl font-bold italic">Pengiriman</h2>
-          <fieldset className="mt-4">
+          <fieldset className="mt-4 min-w-0">
             <legend className="sr-only">Metode</legend>
             <div className="grid gap-3 sm:grid-cols-2">
               {(
@@ -89,7 +89,7 @@ export function FormCheckout({
               ).map((m) => (
                 <label
                   key={m.nilai}
-                  className={clsx(
+                  className={cn(
                     "flex cursor-pointer items-start gap-3 rounded-xl border p-4",
                     metode === m.nilai ? "border-zaitun bg-sage-muda" : "border-garis",
                   )}

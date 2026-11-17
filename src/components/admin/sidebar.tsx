@@ -2,12 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import clsx from "clsx";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { cn } from "@/lib/cn";
 import {
   BarChart3,
   Boxes,
   ClipboardList,
+  ExternalLink,
   Flower2,
   Gift,
   LayoutDashboard,
@@ -43,7 +45,7 @@ function Isi({ pesananBaru, onPilih }: { pesananBaru: number; onPilih?: () => vo
                 href={href}
                 onClick={onPilih}
                 aria-current={aktif ? "page" : undefined}
-                className={clsx(
+                className={cn(
                   "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
                   aktif ? "bg-krem text-zaitun-tua" : "text-white/85 hover:bg-white/10 hover:text-white",
                 )}
@@ -84,18 +86,35 @@ export function SidebarAdmin({ pesananBaru, slotKeluar }: { pesananBaru: number;
 /** Tombol menu + laci navigasi untuk layar kecil. */
 export function MenuAdminMobile({ pesananBaru, slotKeluar }: { pesananBaru: number; slotKeluar: React.ReactNode }) {
   const [buka, setBuka] = useState(false);
+
+  // Tutup dengan tombol Escape dan kunci scroll halaman selama laci terbuka
+  useEffect(() => {
+    if (!buka) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setBuka(false);
+    };
+    const overflowLama = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = overflowLama;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [buka]);
   return (
     <>
       <div className="lg:hidden">
         <button
           type="button"
           onClick={() => setBuka(true)}
+          aria-expanded={buka}
           aria-label="Buka menu admin"
           className="flex h-10 w-10 items-center justify-center rounded-full text-zaitun-tua hover:bg-sage-muda"
         >
           <Menu size={22} aria-hidden />
         </button>
-        {buka ? (
+        {buka
+          ? createPortal(
           <div className="fixed inset-0 z-50 flex" role="dialog" aria-modal="true" aria-label="Menu admin">
             <div className="w-72 overflow-y-auto bg-zaitun-tua p-4 text-white">
               <div className="mb-6 flex items-center justify-between px-2">
@@ -110,11 +129,24 @@ export function MenuAdminMobile({ pesananBaru, slotKeluar }: { pesananBaru: numb
                 </button>
               </div>
               <Isi pesananBaru={pesananBaru} onPilih={() => setBuka(false)} />
-              <div className="mt-6 border-t border-white/15 pt-4">{slotKeluar}</div>
+              <div className="mt-6 space-y-1 border-t border-white/15 pt-4">
+                <Link
+                  href="/"
+                  onClick={() => setBuka(false)}
+                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white"
+                >
+                  <ExternalLink size={18} aria-hidden /> Lihat toko
+                </Link>
+                {slotKeluar}
+              </div>
             </div>
             <button type="button" className="flex-1 bg-black/40" aria-label="Tutup menu" onClick={() => setBuka(false)} />
-          </div>
-        ) : null}
+          </div>,
+              // Dirender langsung di <body>: header memakai backdrop-blur, yang membuat elemen "fixed"
+              // di dalamnya terkurung setinggi header (laci jadi tidak terlihat).
+              document.body,
+            )
+          : null}
       </div>
     </>
   );

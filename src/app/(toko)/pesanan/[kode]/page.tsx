@@ -87,7 +87,7 @@ export default async function HalamanDetailPesanan({ params }: { params: Promise
               href={linkWa(toko.no_whatsapp, `Halo ${toko.nama_toko}, saya mau tanya soal pesanan ${pesanan.kode_pesanan}.`)}
               target="_blank"
               rel="noopener noreferrer"
-              className={kelasTombol("garis") + " w-full"}
+              className={kelasTombol("garis", false, "w-full")}
             >
               <MessageCircle size={16} aria-hidden /> Tanya Admin
             </a>

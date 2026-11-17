@@ -78,7 +78,7 @@ export default async function Beranda() {
             <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-white/90 sm:text-base">
               Buket bunga segar dan artifisial, rangkaian wisuda, dan hadiah custom yang dirangkai dengan hati di Depok.
             </p>
-            <Link href="/katalog" className={kelasTombol("utama") + " mt-8 bg-white/10 px-8 py-3 ring-1 ring-white/40"}>
+            <Link href="/katalog" className={kelasTombol("utama", false, "mt-8 bg-white/10 px-8 py-3 ring-1 ring-white/40")}>
               Order Now
             </Link>
           </div>
@@ -173,7 +173,7 @@ export default async function Beranda() {
               <KartuProduk key={p.id_produk} produk={p} urutan={i} saatGulir />
             ))}
           </div>
-          <Link href="/katalog" className={kelasTombol("utama") + " mt-10 px-8"}>
+          <Link href="/katalog" className={kelasTombol("utama", false, "mt-10 px-8")}>
             All Catalog
           </Link>
         </div>
@@ -194,7 +194,7 @@ export default async function Beranda() {
             </p>
           </div>
           <div className="flex flex-col gap-3 md:items-end">
-            <a href={waCustom} target="_blank" rel="noopener noreferrer" className={kelasTombol("utama") + " px-8 py-3"}>
+            <a href={waCustom} target="_blank" rel="noopener noreferrer" className={kelasTombol("utama", false, "px-8 py-3")}>
               <MessageCircle size={18} aria-hidden /> Chat Admin via WhatsApp
             </a>
             <p className="text-xs text-abu">Pastikan kamu sudah punya akun supaya admin bisa membuat pesananmu.</p>

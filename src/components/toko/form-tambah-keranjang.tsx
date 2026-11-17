@@ -95,7 +95,7 @@ export function FormTambahKeranjang({
       </div>
 
       {addons.length > 0 ? (
-        <fieldset>
+        <fieldset className="min-w-0">
           <legend className="text-sm font-semibold text-tinta">Tambahan (opsional)</legend>
           <p className="text-xs text-abu">Pilih Kartu Ucapan kalau ingin menulis pesan untuk penerima.</p>
           <ul className="mt-3 divide-y divide-garis rounded-2xl border border-garis bg-white">
