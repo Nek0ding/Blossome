@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-script: "Herr Von Muellerhoff", "Cormorant Garamond", cursive;
+
+  --color-krem: #fbf8f1;
+  --color-krem-tua: #f3eee2;
+  --color-zaitun: #6f7b4b;
+  --color-zaitun-tua: #57623a;
+  --color-zaitun-muda: #a3ad7c;
+  --color-sage: #e3e8d2;
+  --color-sage-muda: #eff2e4;
+  --color-rose: #b4456b;
+  --color-rose-tua: #96365a;
+  --color-pink: #f2bfca;
+  --color-pink-muda: #fbe9ec;
+  --color-tinta: #2e2e2b;
+  --color-abu: #6b6b63;
+  --color-garis: #dcd8c9;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-krem);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+}
+
+/* Judul bergaya mockup: serif miring warna rose */
+.judul {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--color-rose);
+  line-height: 1.1;
+}
+
+/* Tombol utama: gradasi zaitun ke pink */
+.tombol-gradasi {
+  /* Sedikit lebih gelap dari mockup supaya teks putih tetap terbaca */
+  background-image: linear-gradient(90deg, #6f7b4b 0%, #a98478 55%, #cc7691 100%);
+}
+.tombol-gradasi:hover {
+  filter: brightness(0.96);
+}
+
+/* Motif bunga tipis untuk latar bagian tertentu */
+.motif-bunga {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%23f2bfca' stroke-width='1.2' opacity='.45'%3E%3Cpath d='M55 40c8-14 26-14 30 0 14-6 26 8 16 20 12 8 6 26-10 24-2 14-22 16-28 4-12 8-28-4-22-18-12-8-4-28 14-30z'/%3E%3Cpath d='M160 140c6-10 20-10 22 0 10-4 20 6 12 16 10 6 4 20-8 18-2 10-16 12-22 2-8 6-20-2-16-14-10-6-2-20 12-22z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 220px 220px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-rose);
+  outline-offset: 2px;
+}
+
+/* ---------- Animasi katalog ---------- */
+@keyframes muncul-naik {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes muncul-pelan {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Kartu muncul bergiliran saat halaman dibuka / filter kategori berganti.
+   Jeda dibatasi 12 kartu supaya katalog panjang tidak menunggu lama. */
+.kartu-muncul {
+  animation: muncul-naik 0.6s cubic-bezier(0.22, 0.8, 0.3, 1) both;
+  animation-delay: calc(min(var(--i, 0), 12) * 70ms);
+}
+
+.teks-muncul {
+  animation: muncul-pelan 0.4s ease-out both;
+}
+
+/* Browser yang mendukung scroll-driven animation: kartu di bawah lipatan muncul saat digulir.
+   Browser lain tetap memakai animasi berbasis waktu di atas. */
+@supports (animation-timeline: view()) {
+  .kartu-muncul.saat-gulir {
+    animation-timeline: view();
+    animation-range: entry 0% cover 22%;
+    animation-delay: 0s;
+    animation-duration: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .kartu-muncul,
+  .teks-muncul {
+    animation: none;
+  }
+}
