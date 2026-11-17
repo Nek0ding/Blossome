@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
-import { getSesi } from "@/lib/auth";
+import { adalahAdmin, getSesi } from "@/lib/auth";
 import { pesanDb } from "@/lib/galat";
 import type { FormState } from "@/lib/types";
 
@@ -17,6 +17,7 @@ export async function tambahKeKeranjang(_prev: FormState, formData: FormData): P
   const slug = String(formData.get("slug") ?? "");
   const sesi = await getSesi();
   if (!sesi) redirect(`/masuk?next=${encodeURIComponent(`/produk/${slug}`)}`);
+  if (await adalahAdmin()) return { error: "Akun admin tidak bisa berbelanja. Gunakan akun pelanggan." };
 
   const idProduk = bilangan(formData.get("id_produk"));
   const jumlah = bilangan(formData.get("jumlah"), 1);

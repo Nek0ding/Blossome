@@ -68,15 +68,20 @@ Buka https://supabase.com/dashboard/project/sjfxnamddrbfawvpcysj
 
 Admin tidak bisa daftar dari website.
 
-1. Daftar akun biasa di `/daftar` (pakai email yang akan jadi admin).
+1. Daftar akun biasa di `/daftar` atau lewat Google (pakai email yang akan jadi admin).
 2. Supabase Dashboard → SQL Editor, jalankan:
 
    ```sql
    update public.profiles set role = 'admin' where email = 'email-admin@contoh.com';
    ```
 
-3. Masuk di `/admin/masuk`.
+3. Masuk di `/admin/masuk` (email + password, atau tombol **Masuk dengan Google** untuk akun Google).
+   Akun Google bisa membuat password di menu **Akun Saya** di admin panel.
 4. Buka **Pengaturan Toko**, lalu isi **email toko** (penerima email orderan masuk) dan nomor WhatsApp.
+
+Akun admin **tidak bisa berbelanja**: semua halaman toko (beranda, katalog, keranjang, checkout, dll.) langsung
+diarahkan ke dashboard, dan database menolak keranjang/pesanan katalog milik admin. Untuk mencoba toko sebagai
+pembeli, pakai akun pelanggan lain (atau jendela penyamaran/incognito).
 
 ## 5. Uji pembayaran QRIS (sandbox)
 

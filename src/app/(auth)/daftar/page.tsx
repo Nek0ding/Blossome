@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { KerangkaAuth } from "@/components/auth/kerangka-auth";
 import { FormDaftar } from "@/components/auth/form-auth";
-import { getSesi } from "@/lib/auth";
+import { getProfil, getSesi } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Sign Up" };
 
 export default async function HalamanDaftar() {
-  if (await getSesi()) redirect("/");
+  if (await getSesi()) redirect((await getProfil())?.role === "admin" ? "/admin" : "/");
   return (
     <KerangkaAuth
       judul="Sign Up"

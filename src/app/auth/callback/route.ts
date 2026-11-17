@@ -14,15 +14,15 @@ export async function GET(request: NextRequest) {
     const supabase = await createClient();
     const { data, error } = await supabase.auth.exchangeCodeForSession(kode);
     if (!error && data.user) {
-      if (keAdmin) {
+      const { data: profil } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+      const admin = profil?.role === "admin";
+      if (keAdmin && !admin) {
         // Masuk dari halaman admin: hanya akun admin yang boleh lanjut.
-        const { data: profil } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
-        if (profil?.role !== "admin") {
-          await supabase.auth.signOut();
-          return NextResponse.redirect(`${origin}/admin/masuk?galat=bukan-admin`);
-        }
+        await supabase.auth.signOut();
+        return NextResponse.redirect(`${origin}/admin/masuk?galat=bukan-admin`);
       }
-      return NextResponse.redirect(`${origin}${next}`);
+      // Admin selalu ke dashboard (admin tidak memakai halaman toko), pelanggan ke tujuan semula.
+      return NextResponse.redirect(`${origin}${admin && !keAdmin ? "/admin" : next}`);
     }
   }
   return NextResponse.redirect(`${origin}${halamanMasuk}?galat=google`);

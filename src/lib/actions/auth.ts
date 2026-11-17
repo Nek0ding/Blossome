@@ -108,7 +108,7 @@ export async function masuk(_prev: FormState, formData: FormData): Promise<FormS
   if (!password) return { error: "Password wajib diisi." };
 
   const supabase = await createClient();
-  const { error } = await supabase.auth.signInWithPassword({ email: email.data, password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email: email.data, password });
   if (error) {
     if (error.message.toLowerCase().includes("email not confirmed")) {
       redirect(`/verifikasi?tipe=daftar&email=${encodeURIComponent(email.data)}`);
@@ -116,6 +116,9 @@ export async function masuk(_prev: FormState, formData: FormData): Promise<FormS
     return { error: pesanAuth(error.message) };
   }
   revalidatePath("/", "layout");
+  // Admin yang masuk lewat halaman pelanggan langsung dibawa ke dashboard (admin tidak memakai halaman toko)
+  const { data: profil } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+  if (profil?.role === "admin") redirect("/admin");
   redirect(amankanNext(formData.get("next")));
 }
 
@@ -176,7 +179,8 @@ export async function aturPasswordBaru(_prev: FormState, formData: FormData): Pr
   const { error } = await supabase.auth.updateUser({ password: password.data });
   if (error) return { error: pesanAuth(error.message) };
   revalidatePath("/", "layout");
-  redirect("/akun?pesan=password-diubah");
+  const { data: profil } = await supabase.from("profiles").select("role").eq("id", data.user.id).maybeSingle();
+  redirect(profil?.role === "admin" ? "/admin/akun?pesan=password-diubah" : "/akun?pesan=password-diubah");
 }
 
 export async function keluar(): Promise<void> {

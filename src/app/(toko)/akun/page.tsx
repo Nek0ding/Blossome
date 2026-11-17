@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { LayoutDashboard, LogOut, Package } from "lucide-react";
+import { LogOut, Package } from "lucide-react";
 import { Kartu, Pesan } from "@/components/ui";
 import { TombolKirim } from "@/components/form";
 import { FormProfil } from "@/components/toko/form-profil";
@@ -24,7 +24,6 @@ export default async function HalamanAkun({ searchParams }: { searchParams: Prom
         <h1 className="judul text-5xl">Akun Saya</h1>
         <p className="mt-1 break-all text-sm text-abu">
           Masuk sebagai <span className="font-semibold text-tinta">{profil.email}</span>
-          {profil.role === "admin" ? " · Admin" : null}
         </p>
         {pesan === "password-diubah" ? (
           <div className="mt-4">
@@ -48,11 +47,6 @@ export default async function HalamanAkun({ searchParams }: { searchParams: Prom
           </div>
 
           <nav aria-label="Menu akun" className="space-y-3 md:sticky md:top-28 md:self-start">
-            {profil.role === "admin" ? (
-              <Link href="/admin" className={KELAS_MENU}>
-                <LayoutDashboard size={18} className="text-rose" aria-hidden /> Admin Panel
-              </Link>
-            ) : null}
             <Link href="/pesanan" className={KELAS_MENU}>
               <Package size={18} className="text-rose" aria-hidden /> Pesanan Saya
             </Link>

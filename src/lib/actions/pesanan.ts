@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { revalidatePath, updateTag } from "next/cache";
 import { TAG_KATALOG } from "@/lib/data";
 import { createClient } from "@/lib/supabase/server";
-import { getSesi } from "@/lib/auth";
+import { adalahAdmin, getSesi } from "@/lib/auth";
 import { pastikanPembayaran, terapkanStatusMidtrans, tutupTransaksiMenunggu } from "@/lib/pembayaran";
 import { pesanDb } from "@/lib/galat";
 import type { FormState } from "@/lib/types";
@@ -17,6 +17,7 @@ function teks(nilai: FormDataEntryValue | null): string {
 export async function buatPesanan(_prev: FormState, formData: FormData): Promise<FormState> {
   const sesi = await getSesi();
   if (!sesi) redirect("/masuk?next=/checkout");
+  if (await adalahAdmin()) return { error: "Akun admin tidak bisa berbelanja. Gunakan akun pelanggan." };
 
   const metode = teks(formData.get("metode")) === "ambil" ? "ambil" : "kirim";
   const idZona = Number.parseInt(teks(formData.get("id_zona")), 10);
