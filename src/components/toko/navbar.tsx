@@ -39,7 +39,7 @@ export async function Navbar() {
             tautan={TAUTAN}
             pengguna={
               profil
-                ? { nama: profil.nama, email: profil.email, admin: profil.role === "admin", keranjang, notif }
+                ? { nama: profil.nama, email: profil.email, keranjang, notif }
                 : null
             }
           />
@@ -61,11 +61,6 @@ export async function Navbar() {
         <div className="flex items-center gap-1.5 sm:gap-2">
           {profil ? (
             <>
-              {profil.role === "admin" ? (
-                <Link href="/admin" className={kelasTombol("garis", true, "hidden sm:inline-flex")}>
-                  Admin Panel
-                </Link>
-              ) : null}
               <Link
                 href="/notifikasi"
                 className="relative flex h-10 w-10 items-center justify-center rounded-full text-zaitun-tua hover:bg-sage-muda"

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { KerangkaAuth } from "@/components/auth/kerangka-auth";
 import { FormMasuk } from "@/components/auth/form-auth";
-import { amankanNext, getSesi } from "@/lib/auth";
+import { amankanNext, getProfil, getSesi } from "@/lib/auth";
 
 export const metadata: Metadata = { title: "Sign In" };
 
@@ -18,7 +18,7 @@ export default async function HalamanMasuk({
 }) {
   const sp = await searchParams;
   const next = amankanNext(sp.next);
-  if (await getSesi()) redirect(next);
+  if (await getSesi()) redirect((await getProfil())?.role === "admin" ? "/admin" : next);
   return (
     <KerangkaAuth judul="Sign In" deskripsi="Selamat datang kembali. Masuk untuk melanjutkan pesananmu.">
       <FormMasuk next={next} galat={sp.galat ? GALAT[sp.galat] : undefined} />

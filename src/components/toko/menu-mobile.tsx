@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Bell, LayoutDashboard, LogIn, LogOut, Menu, Package, ShoppingBag, UserRound, X } from "lucide-react";
+import { Bell, LogIn, LogOut, Menu, Package, ShoppingBag, UserRound, X } from "lucide-react";
 import { keluar } from "@/lib/actions/auth";
 import { kelasTombol } from "@/components/ui";
 import { TombolKirim } from "@/components/form";
@@ -10,7 +10,6 @@ import { TombolKirim } from "@/components/form";
 export interface PenggunaMenu {
   nama: string;
   email: string;
-  admin: boolean;
   keranjang: number;
   notif: number;
 }
@@ -77,17 +76,10 @@ export function MenuMobile({ tautan, pengguna }: { tautan: { href: string; label
                     <p className="truncate text-xs text-abu">{pengguna.email}</p>
                   </div>
                   <span className="ml-auto shrink-0 rounded-full bg-sage px-2 py-0.5 text-[11px] font-semibold text-zaitun-tua">
-                    {pengguna.admin ? "Admin" : "Sudah masuk"}
+                    Sudah masuk
                   </span>
                 </div>
                 <ul className="mt-2 space-y-0.5 border-t border-garis pt-2">
-                  {pengguna.admin ? (
-                    <li>
-                      <Link href="/admin" onClick={tutup} className={KELAS_TAUTAN}>
-                        <LayoutDashboard size={18} className="text-rose" aria-hidden /> Admin Panel
-                      </Link>
-                    </li>
-                  ) : null}
                   <li>
                     <Link href="/akun" onClick={tutup} className={KELAS_TAUTAN}>
                       <UserRound size={18} className="text-rose" aria-hidden /> Akun Saya

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Bell, ExternalLink, LogOut } from "lucide-react";
+import { Bell, CircleUserRound, LogOut } from "lucide-react";
 import { MenuAdminMobile, SidebarAdmin } from "@/components/admin/sidebar";
 import { NotifRealtime } from "@/components/notif-realtime";
 import { TombolKirim } from "@/components/form";
@@ -48,11 +48,10 @@ export default async function LayoutAdmin({ children }: { children: React.ReactN
           </div>
           <div className="flex items-center gap-2">
             <Link
-              href="/"
-              target="_blank"
+              href="/admin/akun"
               className="hidden items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium text-zaitun-tua hover:bg-sage-muda sm:inline-flex"
             >
-              <ExternalLink size={16} aria-hidden /> Lihat toko
+              <CircleUserRound size={16} aria-hidden /> Akun Saya
             </Link>
             <Link
               href="/admin/notifikasi"

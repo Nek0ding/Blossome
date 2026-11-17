@@ -9,7 +9,7 @@ import {
   BarChart3,
   Boxes,
   ClipboardList,
-  ExternalLink,
+  CircleUserRound,
   Flower2,
   Gift,
   LayoutDashboard,
@@ -67,6 +67,24 @@ function Isi({ pesananBaru, onPilih }: { pesananBaru: number; onPilih?: () => vo
   );
 }
 
+/** Tautan ke halaman akun admin (profil & password). */
+function TautanAkun({ onPilih }: { onPilih?: () => void }) {
+  const aktif = usePathname() === "/admin/akun";
+  return (
+    <Link
+      href="/admin/akun"
+      onClick={onPilih}
+      aria-current={aktif ? "page" : undefined}
+      className={cn(
+        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition",
+        aktif ? "bg-krem text-zaitun-tua" : "text-white/85 hover:bg-white/10 hover:text-white",
+      )}
+    >
+      <CircleUserRound size={18} aria-hidden /> Akun Saya
+    </Link>
+  );
+}
+
 /** Sidebar tetap untuk layar besar. */
 export function SidebarAdmin({ pesananBaru, slotKeluar }: { pesananBaru: number; slotKeluar: React.ReactNode }) {
   return (
@@ -78,7 +96,10 @@ export function SidebarAdmin({ pesananBaru, slotKeluar }: { pesananBaru: number;
         </p>
       </div>
       <Isi pesananBaru={pesananBaru} />
-      <div className="mt-auto border-t border-white/15 pt-4">{slotKeluar}</div>
+      <div className="mt-auto space-y-1 border-t border-white/15 pt-4">
+        <TautanAkun />
+        {slotKeluar}
+      </div>
     </aside>
   );
 }
@@ -130,13 +151,7 @@ export function MenuAdminMobile({ pesananBaru, slotKeluar }: { pesananBaru: numb
               </div>
               <Isi pesananBaru={pesananBaru} onPilih={() => setBuka(false)} />
               <div className="mt-6 space-y-1 border-t border-white/15 pt-4">
-                <Link
-                  href="/"
-                  onClick={() => setBuka(false)}
-                  className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/85 hover:bg-white/10 hover:text-white"
-                >
-                  <ExternalLink size={18} aria-hidden /> Lihat toko
-                </Link>
+                <TautanAkun onPilih={() => setBuka(false)} />
                 {slotKeluar}
               </div>
             </div>

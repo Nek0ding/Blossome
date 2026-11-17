@@ -32,6 +32,19 @@ export const getProfil = cache(async (): Promise<Profil | null> => {
   return (data as Profil | null) ?? null;
 });
 
+/** Apakah pengguna yang login adalah admin. */
+export async function adalahAdmin(): Promise<boolean> {
+  return (await getProfil())?.role === "admin";
+}
+
+/**
+ * Admin tidak memakai halaman toko (beranda, katalog, keranjang, checkout, dll.) supaya tidak bisa
+ * memesan untuk diri sendiri. Kalau admin membuka halaman toko, langsung diarahkan ke dashboard.
+ */
+export async function arahkanAdminKeDashboard(): Promise<void> {
+  if (await adalahAdmin()) redirect("/admin");
+}
+
 /** Wajib login. Kalau belum, arahkan ke halaman masuk. */
 export async function wajibLogin(next?: string): Promise<Sesi> {
   const sesi = await getSesi();
