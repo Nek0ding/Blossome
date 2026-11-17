@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { Bell } from "lucide-react";
 import { JudulHalaman } from "@/components/admin/ui-admin";
 import { Kosong } from "@/components/ui";
@@ -48,7 +48,7 @@ export default async function NotifikasiAdmin() {
             <li key={n.id_notifikasi}>
               <Link
                 href={n.pesanan?.kode_pesanan ? `/admin/pesanan/${n.pesanan.kode_pesanan}` : "/admin/pesanan"}
-                className={clsx("flex gap-4 rounded-2xl border p-4 hover:opacity-90", n.is_dibaca ? "border-garis bg-white" : "border-pink bg-pink-muda")}
+                className={cn("flex gap-4 rounded-2xl border p-4 hover:opacity-90", n.is_dibaca ? "border-garis bg-white" : "border-pink bg-pink-muda")}
               >
                 <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white text-rose">
                   <Bell size={18} aria-hidden />

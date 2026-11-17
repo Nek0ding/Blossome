@@ -3,6 +3,7 @@
 import { useActionState, useMemo, useState } from "react";
 import { buatPesananCustom } from "@/lib/actions/admin";
 import { Kartu, Kolom, Pesan, kelasInput } from "@/components/ui";
+import { cn } from "@/lib/cn";
 import { FormAksi, TombolKirim } from "@/components/form";
 import { rupiah } from "@/lib/format";
 import type { PilihanTanggal } from "@/lib/jadwal";
@@ -115,7 +116,7 @@ export function FormPesananCustom({
             </Kolom>
           </div>
           {addons.length > 0 ? (
-            <fieldset>
+            <fieldset className="min-w-0">
               <legend className="mb-2 text-sm font-semibold">Addon (opsional)</legend>
               <div className="grid gap-2 sm:grid-cols-2">
                 {addons.map((a) => (
@@ -130,7 +131,7 @@ export function FormPesananCustom({
                       max={Math.min(99, a.stok)}
                       value={qtyAddon[a.id_addon] ?? 0}
                       onChange={(e) => setQtyAddon((q) => ({ ...q, [a.id_addon]: Math.max(0, Number(e.target.value) || 0) }))}
-                      className={kelasInput + " w-20 py-1.5"}
+                      className={cn(kelasInput, "w-20 py-1.5")}
                       aria-label={`Jumlah ${a.nama_addon}`}
                     />
                   </label>
@@ -155,7 +156,7 @@ export function FormPesananCustom({
               <input id="no_telp_penerima" name="no_telp_penerima" required inputMode="tel" defaultValue={dipilih?.no_telp ?? ""} className={kelasInput} />
             </Kolom>
           </div>
-          <fieldset className="flex flex-wrap gap-4 text-sm">
+          <fieldset className="flex min-w-0 flex-wrap gap-4 text-sm">
             <legend className="mb-2 text-sm font-semibold">Metode</legend>
             <label className="flex items-center gap-2">
               <input type="radio" name="metode" value="kirim" checked={metode === "kirim"} onChange={() => setMetode("kirim")} className="accent-zaitun" />

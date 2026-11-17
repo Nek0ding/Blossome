@@ -9,7 +9,7 @@ import { periodeBawaan, rentangWib, tanggalWib } from "@/lib/laporan";
 import { rupiah, tanggalJam } from "@/lib/format";
 import type { Pesanan } from "@/lib/types";
 
-export const metadata: Metadata = { title: "Dashboard" };
+export const metadata: Metadata = { title: { absolute: "Dashboard · Admin Blossomé" } };
 
 function tujuhHariTerakhir(): string[] {
   const hasil: string[] = [];

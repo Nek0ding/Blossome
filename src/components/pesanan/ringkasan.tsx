@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { Check } from "lucide-react";
 import { labelMetode, labelSlot, labelStatus, rupiah, tanggalJam, tanggalPanjang } from "@/lib/format";
 import type { PesananLengkap, StatusPesanan } from "@/lib/types";
@@ -115,7 +115,7 @@ export function ProgresStatus({ pesanan }: { pesanan: PesananLengkap }) {
         return (
           <li key={s} className="flex flex-col items-center gap-2 text-center">
             <span
-              className={clsx(
+              className={cn(
                 "flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold",
                 selesai ? "bg-zaitun text-white" : aktif ? "bg-rose text-white" : "bg-sage-muda text-abu",
               )}
@@ -123,7 +123,7 @@ export function ProgresStatus({ pesanan }: { pesanan: PesananLengkap }) {
             >
               {selesai ? <Check size={16} /> : i + 1}
             </span>
-            <span className={clsx("text-xs", aktif ? "font-semibold text-tinta" : "text-abu")}>
+            <span className={cn("text-xs", aktif ? "font-semibold text-tinta" : "text-abu")}>
               {labelStatus(s)}
               {aktif ? <span className="sr-only"> (status sekarang)</span> : null}
             </span>

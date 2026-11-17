@@ -11,9 +11,11 @@ import {
   masuk,
   masukAdmin,
   masukGoogle,
+  ubahPasswordAkun,
   verifikasiOtp,
 } from "@/lib/actions/auth";
 import { Kolom, Pesan, kelasInput, kelasTombol } from "@/components/ui";
+import { cn } from "@/lib/cn";
 import { FormAksi, TombolKirim } from "@/components/form";
 
 function InputPassword({ id, name, autoComplete }: { id: string; name: string; autoComplete: string }) {
@@ -26,7 +28,7 @@ function InputPassword({ id, name, autoComplete }: { id: string; name: string; a
         type={tampil ? "text" : "password"}
         required
         autoComplete={autoComplete}
-        className={kelasInput + " pr-11"}
+        className={cn(kelasInput, "pr-11")}
       />
       <button
         type="button"
@@ -44,7 +46,7 @@ function TombolGoogle({ next, label }: { next: string; label: string }) {
   return (
     <form action={masukGoogle}>
       <input type="hidden" name="next" value={next} />
-      <button type="submit" className={kelasTombol("garis") + " w-full border-garis text-tinta"}>
+      <button type="submit" className={kelasTombol("garis", false, "w-full border-garis text-tinta")}>
         <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
           <path fill="#4285F4" d="M22.6 12.2c0-.8-.1-1.5-.2-2.2H12v4.2h5.9a5 5 0 0 1-2.2 3.3v2.7h3.6c2.1-1.9 3.3-4.800 3.3-8z" />
           <path fill="#34A853" d="M12 23c3 0 5.500-1 7.300-2.700l-3.600-2.700c-1 .7-2.300 1.100-3.700 1.100-2.900 0-5.300-1.900-6.200-4.500H2.100v2.800A11 11 0 0 0 12 23z" />
@@ -153,7 +155,7 @@ export function FormVerifikasi({ email, tipe }: { email: string; tipe: "daftar" 
             maxLength={8}
             required
             placeholder="••••••"
-            className={kelasInput + " text-center text-2xl font-semibold tracking-[0.5em]"}
+            className={cn(kelasInput, "text-center text-2xl font-semibold tracking-[0.5em]")}
           />
         </Kolom>
         <Pesan error={state?.error} />
@@ -208,18 +210,46 @@ export function FormPasswordBaru() {
   );
 }
 
-export function FormMasukAdmin() {
+export function FormMasukAdmin({ galat }: { galat?: string }) {
   const [state, action, pending] = useActionState(masukAdmin, null);
   return (
+    <div className="space-y-4">
+      <FormAksi aksi={action} pending={pending} className="space-y-4">
+        <Kolom label="Email admin" htmlFor="email">
+          <input id="email" name="email" type="email" required autoComplete="email" className={kelasInput} />
+        </Kolom>
+        <Kolom label="Password" htmlFor="password">
+          <InputPassword id="password" name="password" autoComplete="current-password" />
+        </Kolom>
+        <Pesan error={state?.error ?? galat} />
+        <TombolKirim className="w-full">Masuk ke Admin Panel</TombolKirim>
+      </FormAksi>
+      <Pemisah teks="Akun admin dibuat dengan Google?" />
+      <TombolGoogle next="/admin" label="Masuk dengan Google" />
+      <p className="text-center text-xs leading-relaxed text-abu">
+        Ingin masuk pakai password juga? Setelah masuk, buat password di halaman{" "}
+        <Link href="/akun" className="font-semibold text-rose hover:underline">
+          Akun
+        </Link>
+        .
+      </p>
+    </div>
+  );
+}
+
+/** Buat atau ganti password dari halaman Akun. */
+export function FormUbahPassword() {
+  const [state, action, pending] = useActionState(ubahPasswordAkun, null);
+  return (
     <FormAksi aksi={action} pending={pending} className="space-y-4">
-      <Kolom label="Email admin" htmlFor="email">
-        <input id="email" name="email" type="email" required autoComplete="email" className={kelasInput} />
+      <Kolom label="Password baru" htmlFor="password_baru" bantuan="Minimal 8 karakter, berisi huruf dan angka.">
+        <InputPassword id="password_baru" name="password" autoComplete="new-password" />
       </Kolom>
-      <Kolom label="Password" htmlFor="password">
-        <InputPassword id="password" name="password" autoComplete="current-password" />
+      <Kolom label="Konfirmasi password baru" htmlFor="konfirmasi_baru">
+        <InputPassword id="konfirmasi_baru" name="konfirmasi" autoComplete="new-password" />
       </Kolom>
-      <Pesan error={state?.error} />
-      <TombolKirim className="w-full">Masuk ke Admin Panel</TombolKirim>
+      <Pesan error={state?.error} ok={state?.ok} />
+      <TombolKirim teksProses="Menyimpan…">Simpan Password</TombolKirim>
     </FormAksi>
   );
 }

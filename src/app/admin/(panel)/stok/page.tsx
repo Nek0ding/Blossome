@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { JudulHalaman, Tabel, Td, Th } from "@/components/admin/ui-admin";
 import { FormStok } from "@/components/admin/form-stok";
 import { createClient } from "@/lib/supabase/server";
@@ -26,14 +26,14 @@ function TabelStok({ judul, jenis, items }: { judul: string; jenis: "produk" | "
         </thead>
         <tbody>
           {items.map((i) => (
-            <tr key={i.id} className={clsx(!i.is_aktif && "opacity-60")}>
+            <tr key={i.id} className={cn(!i.is_aktif && "opacity-60")}>
               <Td>
                 <p className="font-semibold">{i.nama}</p>
                 {!i.is_aktif ? <p className="text-xs text-abu">Nonaktif</p> : null}
               </Td>
               <Td>
                 <span
-                  className={clsx(
+                  className={cn(
                     "inline-flex min-w-10 justify-center rounded-full px-2.5 py-1 text-xs font-bold",
                     i.stok <= i.stok_minimum ? "bg-amber-100 text-amber-800" : "bg-sage text-zaitun-tua",
                   )}
@@ -104,7 +104,7 @@ export default async function HalamanStok({ searchParams }: { searchParams: Prom
                 key={f.l}
                 href={f.v ? `/admin/stok?log=${f.v}` : "/admin/stok"}
                 aria-current={filterLog === f.v ? "page" : undefined}
-                className={clsx(
+                className={cn(
                   "rounded-full px-3 py-1 font-medium",
                   filterLog === f.v ? "bg-zaitun text-white" : "border border-garis bg-white text-zaitun-tua",
                 )}

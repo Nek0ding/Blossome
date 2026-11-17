@@ -1,5 +1,5 @@
 import Link from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import type { ReactNode } from "react";
 
 export function JudulHalaman({
@@ -24,7 +24,7 @@ export function JudulHalaman({
 
 export function Tabel({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={clsx("overflow-x-auto rounded-2xl border border-garis bg-white", className)}>
+    <div className={cn("overflow-x-auto rounded-2xl border border-garis bg-white", className)}>
       <table className="w-full min-w-[640px] text-left text-sm">{children}</table>
     </div>
   );
@@ -32,14 +32,14 @@ export function Tabel({ children, className }: { children: ReactNode; className?
 
 export function Th({ children, className }: { children?: ReactNode; className?: string }) {
   return (
-    <th scope="col" className={clsx("border-b border-garis bg-krem-tua px-4 py-3 text-xs font-semibold uppercase tracking-wide text-abu", className)}>
+    <th scope="col" className={cn("border-b border-garis bg-krem-tua px-4 py-3 text-xs font-semibold uppercase tracking-wide text-abu", className)}>
       {children}
     </th>
   );
 }
 
 export function Td({ children, className }: { children?: ReactNode; className?: string }) {
-  return <td className={clsx("border-b border-garis/70 px-4 py-3 align-top", className)}>{children}</td>;
+  return <td className={cn("border-b border-garis/70 px-4 py-3 align-top", className)}>{children}</td>;
 }
 
 export function KartuStat({
@@ -56,7 +56,7 @@ export function KartuStat({
   warna?: string;
 }) {
   const isi = (
-    <div className={clsx("h-full rounded-2xl p-5", warna)}>
+    <div className={cn("h-full rounded-2xl p-5", warna)}>
       <p className="text-sm font-medium text-abu">{label}</p>
       <p className="mt-2 text-2xl font-bold text-tinta">{nilai}</p>
       {keterangan ? <p className="mt-1 text-xs text-abu">{keterangan}</p> : null}

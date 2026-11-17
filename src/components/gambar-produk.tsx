@@ -1,5 +1,5 @@
 import Image from "next/image";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 
 /** Foto produk. Kalau belum ada foto, tampilkan ilustrasi bunga sebagai pengganti. */
 export function GambarProduk({
@@ -19,14 +19,14 @@ export function GambarProduk({
   zoom?: boolean;
 }) {
   return (
-    <div className={clsx("relative overflow-hidden bg-sage-muda", className)}>
+    <div className={cn("relative overflow-hidden bg-sage-muda", className)}>
       {src ? (
         <Image
           src={src}
           alt={alt}
           fill
           sizes={sizes}
-          className={clsx("object-cover", zoom && "transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100")}
+          className={cn("object-cover", zoom && "transition-transform duration-500 ease-out group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100")}
           priority={prioritas}
         />
       ) : (

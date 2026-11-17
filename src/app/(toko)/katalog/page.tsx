@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import { KartuProduk } from "@/components/toko/kartu-produk";
 import { Kosong } from "@/components/ui";
 import { getKategori, getProdukAktif } from "@/lib/data";
@@ -32,7 +32,7 @@ export default async function HalamanKatalog({
           <Link
             href="/katalog"
             aria-current={!aktif ? "page" : undefined}
-            className={clsx(
+            className={cn(
               "rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-200",
               !aktif ? "bg-zaitun text-white" : "border border-garis bg-white text-zaitun-tua hover:border-zaitun",
             )}
@@ -46,7 +46,7 @@ export default async function HalamanKatalog({
                 key={k.id_kategori}
                 href={`/katalog?kategori=${k.slug}`}
                 aria-current={dipilih ? "page" : undefined}
-                className={clsx(
+                className={cn(
                   "rounded-full px-4 py-1.5 text-sm font-semibold transition-colors duration-200",
                   dipilih ? "bg-zaitun text-white" : "border border-garis bg-white text-zaitun-tua hover:border-zaitun",
                 )}

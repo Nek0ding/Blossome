@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@/lib/cn";
 import type { ComponentProps, ReactNode } from "react";
 import type { StatusPesanan } from "@/lib/types";
 import { labelStatus, warnaStatus } from "@/lib/format";
@@ -13,11 +13,12 @@ const KELAS_TOMBOL: Record<Varian, string> = {
   polos: "text-zaitun-tua hover:bg-sage-muda",
 };
 
-export function kelasTombol(varian: Varian = "utama", kecil = false): string {
-  return clsx(
+export function kelasTombol(varian: Varian = "utama", kecil = false, tambahan?: string): string {
+  return cn(
     "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition disabled:cursor-not-allowed disabled:opacity-60",
     kecil ? "px-3.5 py-1.5 text-sm" : "px-6 py-2.5 text-sm",
     KELAS_TOMBOL[varian],
+    tambahan,
   );
 }
 
@@ -27,14 +28,14 @@ export function Tombol({
   className,
   ...props
 }: ComponentProps<"button"> & { varian?: Varian; kecil?: boolean }) {
-  return <button {...props} className={clsx(kelasTombol(varian, kecil), className)} />;
+  return <button {...props} className={cn(kelasTombol(varian, kecil), className)} />;
 }
 
 export const kelasInput =
   "w-full rounded-xl border border-garis bg-white px-3.5 py-2.5 text-sm text-tinta placeholder:text-abu/70 focus:border-zaitun focus:outline-none focus:ring-2 focus:ring-zaitun/20 disabled:bg-krem-tua";
 
 export function Label({ className, ...props }: ComponentProps<"label">) {
-  return <label {...props} className={clsx("mb-1.5 block text-sm font-semibold text-tinta", className)} />;
+  return <label {...props} className={cn("mb-1.5 block text-sm font-semibold text-tinta", className)} />;
 }
 
 /** Label + input + teks bantuan dalam satu blok. */
@@ -61,19 +62,19 @@ export function Kolom({
 }
 
 export function Kartu({ className, ...props }: ComponentProps<"div">) {
-  return <div {...props} className={clsx("rounded-2xl border border-garis bg-white p-5 sm:p-6", className)} />;
+  return <div {...props} className={cn("rounded-2xl border border-garis bg-white p-5 sm:p-6", className)} />;
 }
 
 export function LencanaStatus({ status }: { status: StatusPesanan }) {
   return (
-    <span className={clsx("inline-flex rounded-full px-2.5 py-1 text-xs font-semibold", warnaStatus(status))}>
+    <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-semibold", warnaStatus(status))}>
       {labelStatus(status)}
     </span>
   );
 }
 
 export function Lencana({ children, warna = "bg-sage text-zaitun-tua" }: { children: ReactNode; warna?: string }) {
-  return <span className={clsx("inline-flex rounded-full px-2.5 py-1 text-xs font-semibold", warna)}>{children}</span>;
+  return <span className={cn("inline-flex rounded-full px-2.5 py-1 text-xs font-semibold", warna)}>{children}</span>;
 }
 
 /** Kotak pesan error atau sukses dari server action. */
@@ -82,7 +83,7 @@ export function Pesan({ error, ok }: { error?: string; ok?: string }) {
   return (
     <p
       role={error ? "alert" : "status"}
-      className={clsx(
+      className={cn(
         "rounded-xl border px-3.5 py-2.5 text-sm",
         error ? "border-red-200 bg-red-50 text-red-800" : "border-emerald-200 bg-emerald-50 text-emerald-800",
       )}

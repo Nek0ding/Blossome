@@ -30,7 +30,7 @@ export default async function HalamanPesananSaya() {
           <div className="mt-8">
             <Kosong judul="Belum ada pesanan">
               <p>Pesanan yang kamu buat akan muncul di sini.</p>
-              <Link href="/katalog" className={kelasTombol("utama") + " mt-5"}>
+              <Link href="/katalog" className={kelasTombol("utama", false, "mt-5")}>
                 Mulai Belanja
               </Link>
             </Kosong>

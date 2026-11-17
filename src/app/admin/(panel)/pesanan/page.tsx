@@ -86,7 +86,41 @@ export default async function DaftarPesananAdmin({
       {daftar.length === 0 ? (
         <Kosong judul="Tidak ada pesanan">Coba ubah filter atau kata kunci pencarian.</Kosong>
       ) : (
-        <Tabel>
+        <>
+        {/* HP: kartu yang mudah dibaca tanpa geser ke samping */}
+        <ul className="space-y-3 md:hidden">
+          {daftar.map((p) => (
+            <li key={p.id_pesanan}>
+              <Link
+                href={`/admin/pesanan/${p.kode_pesanan}`}
+                className="block rounded-2xl border border-garis bg-white p-4 transition-colors hover:border-zaitun"
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-semibold text-rose">
+                      {p.kode_pesanan}
+                      {p.tipe_pesanan === "custom" ? (
+                        <span className="ml-2 rounded-full bg-pink-muda px-2 py-0.5 text-[11px] font-semibold text-rose">Custom</span>
+                      ) : null}
+                    </p>
+                    <p className="mt-0.5 truncate text-sm font-medium">{p.pelanggan?.nama ?? "-"}</p>
+                    <p className="truncate text-xs text-abu">Untuk {p.nama_penerima}</p>
+                  </div>
+                  <LencanaStatus status={p.status} />
+                </div>
+                <div className="mt-3 flex items-end justify-between gap-3 border-t border-garis/70 pt-3 text-xs text-abu">
+                  <p>
+                    {tanggal(p.tanggal_kirim)} · {p.slot_kirim}
+                    <br />
+                    {labelMetode(p.metode_pengiriman)}
+                  </p>
+                  <p className="text-sm font-semibold text-tinta">{rupiah(p.total_harga)}</p>
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <Tabel className="hidden md:block">
           <thead>
             <tr>
               <Th>Kode</Th>
@@ -125,6 +159,7 @@ export default async function DaftarPesananAdmin({
             ))}
           </tbody>
         </Tabel>
+        </>
       )}
       <Paginasi halaman={halaman} adaBerikutnya={semua.length > PER_HALAMAN} buatHref={buatHref} />
     </>

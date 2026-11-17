@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef } from "react";
 import { sesuaikanStok } from "@/lib/actions/admin";
 import { kelasInput } from "@/components/ui";
+import { cn } from "@/lib/cn";
 import { FormAksi, TombolKirim } from "@/components/form";
 
 export function FormStok({ jenis, id, nama }: { jenis: "produk" | "addon"; id: number; nama: string }) {
@@ -17,7 +18,7 @@ export function FormStok({ jenis, id, nama }: { jenis: "produk" | "addon"; id: n
       <FormAksi ref={ref} aksi={action} pending={pending} className="flex flex-wrap items-center gap-2">
         <input type="hidden" name="jenis" value={jenis} />
         <input type="hidden" name="id" value={id} />
-        <select name="arah" aria-label={`Jenis perubahan stok ${nama}`} className={kelasInput + " w-28 py-1.5"} defaultValue="tambah">
+        <select name="arah" aria-label={`Jenis perubahan stok ${nama}`} className={cn(kelasInput, "w-28 py-1.5")} defaultValue="tambah">
           <option value="tambah">Tambah</option>
           <option value="kurang">Kurangi</option>
         </select>
@@ -29,7 +30,7 @@ export function FormStok({ jenis, id, nama }: { jenis: "produk" | "addon"; id: n
           required
           placeholder="Jml"
           aria-label={`Jumlah perubahan stok ${nama}`}
-          className={kelasInput + " w-20 py-1.5"}
+          className={cn(kelasInput, "w-20 py-1.5")}
         />
         <input
           name="keterangan"
@@ -37,7 +38,7 @@ export function FormStok({ jenis, id, nama }: { jenis: "produk" | "addon"; id: n
           maxLength={200}
           placeholder="Keterangan"
           aria-label={`Keterangan perubahan stok ${nama}`}
-          className={kelasInput + " w-40 py-1.5"}
+          className={cn(kelasInput, "w-40 py-1.5")}
         />
         <TombolKirim varian="garis" kecil teksProses="…">
           Simpan
